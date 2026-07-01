@@ -16,7 +16,7 @@
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--text);font-family:'Crimson Text',Georgia,serif;min-height:100vh}
   body::after{content:'';position:fixed;inset:0;pointer-events:none;z-Index:9000;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:.5}
-  .wrap{max-width:1080px;margin:0 auto;padding:52px 28px 80px}
+  .wrap{max-width:1080px;margin:0 auto;padding:52px 28px 110px}
   .header{text-align:center;margin-bottom:48px}
   .header-eye{width:36px;height:36px;margin:0 auto 14px;color:var(--gold)}
   .header h1{font-family:'Cinzel',serif;font-size:clamp(22px,4vw,44px);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold2);line-height:1.1}
@@ -100,7 +100,95 @@ function getUsed(text){return new Set(text.split('').map(c=>normalize(c).toLower
 function svgToImg(svgStr){return new Promise(resolve=>{const blob=new Blob([svgStr],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);const img=new Image();img.onload=()=>{URL.revokeObjectURL(url);resolve(img)};img.src=url})}
 function getSVGMarkup(letter,color='#c8994a'){const paths={a:`<path d="M8,24 A10,10 0 0,1 24,24"/><path d="M11,20 A6,6 0 0,1 21,20"/><circle cx="16" cy="26" r="1.5" fill="${color}" stroke="none"/>`,b:`<rect x="7" y="7" width="18" height="18"/><polygon points="16,11 21,16 16,21 11,16"/>`,c:`<path d="M16,16 m0,-7 a7,7 0 1,0 7,7 a4.5,4.5 0 1,0 -4.5,-4.5 a2,2 0 1,0 2,2"/>`,d:`<polygon points="16,26 5,8 27,8"/><circle cx="16" cy="15" r="3.5"/>`,e:`<polygon points="16,5 18.5,13.5 27,16 18.5,18.5 16,27 13.5,18.5 5,16 13.5,13.5"/>`,f:`<circle cx="16" cy="16" r="6"/><line x1="16" y1="10" x2="16" y2="4"/><line x1="10.8" y1="19" x2="6.5" y2="25.4"/><line x1="21.2" y1="19" x2="25.5" y2="25.4"/>`,g:`<path d="M22,8 A9,9 0 1,0 22,24 A6,6 0 1,1 22,8"/><circle cx="16" cy="5" r="1.8" fill="${color}" stroke="none"/>`,h:`<circle cx="9" cy="16" r="5"/><circle cx="23" cy="16" r="5"/><line x1="14" y1="16" x2="18" y2="16"/>`,i:`<polygon points="16,5 25,10.5 25,21.5 16,27 7,21.5 7,10.5"/>`,j:`<path d="M16,8 C22,8 26,13 24,18 C22,23 16,24 16,24 C16,24 10,23 8,18 C6,13 10,8 16,8 Z"/><line x1="16" y1="24" x2="16" y2="29"/><line x1="12" y1="27" x2="20" y2="27"/>`,k:`<path d="M5,16 Q10,8 16,8 Q22,8 27,16 Q22,24 16,24 Q10,24 5,16 Z"/><ellipse cx="16" cy="16" rx="2.5" ry="5" fill="${color}" fill-opacity="0.35"/><ellipse cx="16" cy="16" rx="2.5" ry="5"/>`,l:`<polygon points="16,5 28,26 4,26"/><polygon points="16,22 7.5,10 24.5,10"/>`,m:`<line x1="16" y1="5" x2="16" y2="27"/><line x1="5" y1="16" x2="27" y2="16"/><circle cx="16" cy="5" r="2" fill="${color}" stroke="none"/><circle cx="16" cy="27" r="2" fill="${color}" stroke="none"/><circle cx="5" cy="16" r="2" fill="${color}" stroke="none"/><circle cx="27" cy="16" r="2" fill="${color}" stroke="none"/>`,n:`<path d="M5,19 Q8,10 12,19 Q16,28 20,19 Q24,10 27,19"/><circle cx="16" cy="9" r="3.5"/>`,o:`<rect x="8" y="8" width="16" height="16"/><rect x="8" y="8" width="16" height="16" transform="rotate(45 16 16)"/>`,p:`<circle cx="16" cy="16" r="11"/><circle cx="16" cy="16" r="6.5"/><circle cx="16" cy="16" r="2.5"/>`,q:`<polyline points="20,4 11,17 17,17 12,28"/>`,r:`<path d="M16,16 L16,6 L26,6 L26,26 L6,26 L6,10 L22,10"/><polyline points="18,8 22,10 18,12"/>`,s:`<path d="M10,6 Q22,6 22,13 Q22,20 10,20 Q10,26 16,27"/><path d="M22,12 Q10,12 10,19 Q10,26 22,26 Q22,20 16,19"/>`,t:`<polygon points="16,5 27,13 23,26 9,26 5,13"/><circle cx="16" cy="17" r="2.5" fill="${color}" stroke="none"/>`,u:`<polygon points="16,4 28,16 16,28 4,16"/><line x1="6" y1="16" x2="26" y2="16"/>`,v:`<line x1="9" y1="10" x2="23" y2="10"/><line x1="9" y1="16" x2="23" y2="16"/><line x1="9" y1="22" x2="23" y2="22"/><circle cx="6" cy="13" r="1.8" fill="${color}" stroke="none"/><circle cx="6" cy="19" r="1.8" fill="${color}" stroke="none"/>`,w:`<line x1="16" y1="16" x2="16" y2="4"/><line x1="16" y1="16" x2="26.4" y2="22"/><line x1="16" y1="16" x2="26.4" y2="10"/><line x1="16" y1="16" x2="16" y2="28"/><line x1="16" y1="16" x2="5.6" y2="22"/><line x1="16" y1="16" x2="5.6" y2="10"/>`,x:`<path d="M8,8 Q24,8 24,16 Q24,24 8,24"/><path d="M24,8 Q8,8 8,16 Q8,24 24,24"/><circle cx="10" cy="16" r="2" fill="${color}" stroke="none"/><circle cx="22" cy="16" r="2" fill="${color}" stroke="none"/>`,y:`<polygon points="6,5 26,5 16,16"/><polygon points="6,27 26,27 16,16"/>`,z:`<circle cx="16" cy="16" r="11"/><line x1="7.2" y1="7.2" x2="24.8" y2="24.8"/><line x1="24.8" y1="7.2" x2="7.2" y2="24.8"/><path d="M16,5 Q27,5 24.8,7.2 L16,16 Z" fill="${color}" fill-opacity="0.6" stroke="none"/>`};return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="${color}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${paths[letter]||''}</svg>`}
 async function exportToCanvas(tokens){const W=1000,PAD=48,SYM_SIZE=40,ABC_COLS=13,ABC_CELL=Math.floor((W-PAD*2)/ABC_COLS)+8,ABC_SYM=36,ABC_LETTER_SIZE=14,BG='#ffffff',BG2='#f5f0e8',MAX_W=W-PAD*2;const abcImgs={};await Promise.all('abcdefghijklmnopqrstuvwxyz'.split('').map(async l=>{abcImgs[l]=await svgToImg(getSVGMarkup(l,'#8a6010').replace('width="32" height="32"',`width="${ABC_SYM}" height="${ABC_SYM}"`))}));const msgImgs={};const usedLetters=new Set(tokens.flatMap(t=>t.type==='word'?t.chars.filter(c=>c.hasSymbol).map(c=>c.lo):[]));await Promise.all([...usedLetters].map(async l=>{msgImgs[l]=await svgToImg(getSVGMarkup(l,'#5a3800').replace('width="32" height="32"',`width="${SYM_SIZE}" height="${SYM_SIZE}"`))}));const SPACE_W=18,CHAR_W=SYM_SIZE+2,LINE_H=SYM_SIZE+14;const lines=[[]];let cx=0;for(const tok of tokens){if(tok.type==='newline'){lines.push([]);cx=0;continue}if(tok.type==='space'){lines[lines.length-1].push({type:'space',w:SPACE_W});cx+=SPACE_W;continue}const wordW=tok.chars.reduce((s,c)=>s+(c.hasSymbol?CHAR_W:12),0);if(cx+wordW>MAX_W&&cx>0){lines.push([]);cx=0}for(const c of tok.chars){const w=c.hasSymbol?CHAR_W:12;lines[lines.length-1].push({type:c.hasSymbol?'sym':'plain',letter:c.lo,ch:c.ch,w});cx+=w}}const MSG_H=lines.length*LINE_H+28,TITLE_H=100,SECTION_GAP=28,LABEL_H=30,cellW=Math.floor(MAX_W/ABC_COLS),cellH=ABC_CELL+14,TOTAL_H=PAD+TITLE_H+SECTION_GAP+MSG_H+SECTION_GAP+LABEL_H+cellH*2+PAD+20;const canvas=document.createElement('canvas');canvas.width=W;canvas.height=TOTAL_H;const ctx=canvas.getContext('2d');ctx.fillStyle=BG;ctx.fillRect(0,0,W,TOTAL_H);let y=PAD;ctx.fillStyle='#a08040';ctx.font='11px serif';ctx.textAlign='center';ctx.letterSpacing='6px';ctx.fillText('∴  ARCANUM  ∴',W/2,y+18);ctx.fillStyle='#5a3800';ctx.font='bold 28px serif';ctx.letterSpacing='4px';ctx.fillText('MENSAJE CIFRADO',W/2,y+52);ctx.strokeStyle='#d0c0a0';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(PAD,y+68);ctx.lineTo(W-PAD,y+68);ctx.stroke();y+=TITLE_H;ctx.fillStyle=BG2;ctx.fillRect(PAD-1,y,MAX_W+2,MSG_H);ctx.strokeStyle='#d0c0a0';ctx.strokeRect(PAD-1,y,MAX_W+2,MSG_H);ctx.letterSpacing='0px';let ly=y+14;for(const line of lines){let lx=PAD+10;for(const item of line){if(item.type==='sym'){ctx.drawImage(msgImgs[item.letter],lx,ly,SYM_SIZE,SYM_SIZE);lx+=CHAR_W}else if(item.type==='plain'){ctx.fillStyle='#8a7a62';ctx.font='14px monospace';ctx.textAlign='left';ctx.fillText(item.ch,lx,ly+SYM_SIZE*0.7);lx+=item.w}else if(item.type==='space'){ctx.fillStyle='#8a7a62';ctx.font=`bold ${SYM_SIZE*0.5}px monospace`;ctx.textAlign='left';ctx.fillText('_',lx,ly+SYM_SIZE*0.75);lx+=item.w}}ly+=LINE_H}y+=MSG_H+SECTION_GAP;const gradSep=ctx.createLinearGradient(PAD,0,W-PAD,0);gradSep.addColorStop(0,'transparent');gradSep.addColorStop(0.5,'#c0a060');gradSep.addColorStop(1,'transparent');ctx.strokeStyle=gradSep;ctx.beginPath();ctx.moveTo(PAD,y);ctx.lineTo(W-PAD,y);ctx.stroke();y+=10;ctx.fillStyle='#5a3800';ctx.font='11px serif';ctx.textAlign='center';ctx.letterSpacing='5px';ctx.fillText('ALFABETO DE REFERENCIA',W/2,y+16);y+=LABEL_H;const LETTERS='abcdefghijklmnopqrstuvwxyz'.split('');for(let i=0;i<LETTERS.length;i++){const col=i%ABC_COLS,row=Math.floor(i/ABC_COLS),cx2=PAD+col*cellW,cy2=y+row*cellH;ctx.fillStyle=BG2;ctx.fillRect(cx2,cy2,cellW,cellH);ctx.strokeStyle='#d0c0a0';ctx.strokeRect(cx2,cy2,cellW,cellH);ctx.drawImage(abcImgs[LETTERS[i]],cx2+(cellW-ABC_SYM)/2,cy2+8,ABC_SYM,ABC_SYM);ctx.fillStyle='#8a7a62';ctx.font=`bold ${ABC_LETTER_SIZE}px serif`;ctx.textAlign='center';ctx.letterSpacing='1px';ctx.fillText(LETTERS[i].toUpperCase(),cx2+cellW/2,cy2+cellH-5)}y+=2*cellH+10;ctx.fillStyle='#a08040';ctx.font='8px serif';ctx.textAlign='center';ctx.letterSpacing='3px';ctx.fillText('∴  CODIFICADOR DE SÍMBOLOS  ∴',W/2,y+16);const link=document.createElement('a');link.download='mensaje-cifrado.jpg';link.href=canvas.toDataURL('image/jpeg',0.95);link.click()}
-function App(){const[text,setText]=useState('');const[labels,setLabels]=useState(false);const[exporting,setExporting]=useState(false);const[toast,setToast]=useState(false);const tokens=tokenize(text);const used=getUsed(text);const hasContent=text.trim().length>0;function showToast(){setToast(true);setTimeout(()=>setToast(false),2600)}async function doExport(){if(!hasContent)return;setExporting(true);try{await exportToCanvas(tokens);showToast()}catch(e){console.error(e)}setExporting(false)}return(<div><div className="header"><svg className="header-eye" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M3,18 Q10,8 18,8 Q26,8 33,18 Q26,28 18,28 Q10,28 3,18 Z"/><circle cx="18" cy="18" r="5"/><circle cx="18" cy="18" r="2" fill="currentColor" stroke="none"/></svg><h1>Codificador de Símbolos</h1><sub>Transforma palabras en un lenguaje cifrado</sub><div className="rule"><span></span><div className="rule-dot"></div><span></span></div></div><div className="grid"><div className="panel"><div className="panel-lbl">Texto original</div><textarea value={text} onChange={e=>setText(e.target.value)} placeholder="Escribe aquí tu mensaje secreto…" spellCheck="false"/><div className="actions"><button className="btn" onClick={()=>setText('')}>Limpiar</button><button className="btn" style={{marginLeft:'auto'}} onClick={()=>setLabels(v=>!v)}>{labels?'Ocultar letras':'Mostrar letras'}</button></div></div><div className="panel"><div className="panel-lbl">Mensaje cifrado</div><div className="output">{!hasContent&&<div className="out-empty">El código aparecerá aquí…</div>}{tokens.map((tok,ti)=>{if(tok.type==='newline')return<div key={ti} style={{width:'100%',height:4}}/>;if(tok.type==='space')return(<span key={ti} style={{display:'inline-flex',alignItems:'center',gap:4}}>{Array.from({length:tok.n}).map((_,si)=>(<span key={si} style={{color:'var(--tdim)',fontSize:'1.3rem',lineHeight:'28px',letterSpacing:0,fontFamily:'monospace'}}>_</span>))}</span>);return(<span key={ti} className="out-word">{tok.chars.map((c,ci)=>c.hasSymbol?(<span key={ci} className="out-ch">{SYM[c.lo]()}{labels&&<span className="out-ltr">{c.lo}</span>}</span>):(<span key={ci} className="out-plain">{c.ch}</span>))}</span>)})}</div><div className="actions"><button className="btn accent" onClick={doExport} disabled={!hasContent||exporting}>{exporting?'Generando…':'↓ Exportar JPG'}</button></div></div></div><div className="sep"><span/><em>∴ Alfabeto Cifrado ∴</em><span/></div><div className="abc"><div className="abc-grid">{ALPHA.map(letter=>(<div key={letter} className={`abc-cell${used.has(letter)?' lit':''}`}>{SYM[letter]()}<div className="abc-letter">{letter}</div></div>))}</div></div><div className={`toast${toast?' show':''}`}>Imagen guardada</div></div>)}
+/* ============================================================
+   Crédito "Res Cogitans" — pie de página + tarjeta del manifiesto.
+   Mismo componente que en QuizSpark y Presentaciones Interactivas.
+   Los logos deben estar en la RAÍZ del repo (junto a index.html):
+     logo-res-cogitas.png   (marca horizontal)
+     logo-a-cogitas.png     (monograma "A")
+   ============================================================ */
+function ResCogitasFooter(){
+  const [abierto, setAbierto] = useState(false);
+  React.useEffect(() => {
+    if (!abierto) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onEsc = (e) => { if (e.key === 'Escape') setAbierto(false); };
+    window.addEventListener('keydown', onEsc);
+    return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onEsc); };
+  }, [abierto]);
+  return (
+    <React.Fragment>
+      <footer
+        onClick={() => setAbierto(true)}
+        title="Conoce Res Cogitans"
+        style={{
+          position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 9500,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+          padding: '8px 14px', cursor: 'pointer',
+          background: 'rgba(10,9,6,.82)', backdropFilter: 'blur(8px)',
+          borderTop: '1px solid var(--border)',
+          color: 'var(--tdim)', fontSize: 12.5, fontWeight: 600,
+          fontFamily: "'Cinzel', serif", letterSpacing: '.03em',
+        }}>
+        <span>Creado por <strong style={{ color: 'var(--gold2)' }}>Andersson Cortes</strong> y <strong style={{ color: 'var(--gold2)' }}>Res Cogitans</strong></span>
+        <span style={{ color: 'var(--gold)', fontWeight: 800 }}>ⓘ</span>
+      </footer>
+      {abierto && (
+        <div
+          onClick={() => setAbierto(false)}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 9998,
+            background: 'rgba(0,0,0,.72)', backdropFilter: 'blur(4px)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: 18, overflowY: 'auto',
+          }}>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: '100%', maxWidth: 620, margin: 'auto',
+              background: 'var(--bg2)', border: '1px solid var(--border)', borderRadius: 22,
+              padding: '28px 26px 26px', position: 'relative',
+              boxShadow: '0 30px 80px -30px rgba(0,0,0,.8)',
+            }}>
+            <button
+              onClick={() => setAbierto(false)} title="Cerrar"
+              style={{
+                position: 'absolute', top: 14, right: 14,
+                width: 38, height: 38, borderRadius: 999, border: 'none', cursor: 'pointer',
+                background: 'var(--bg3)', color: 'var(--tdim)', fontSize: 18, fontWeight: 800,
+              }}>✕</button>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 22, marginBottom: 18, flexWrap: 'wrap' }}>
+              <img src="logo-a-cogitas.png" alt="Res Cogitans"
+                style={{ height: 120, width: 'auto' }} />
+              <img src="logo-res-cogitas.png" alt="Res Cogitans"
+                style={{ width: 'min(340px, 70%)', height: 'auto' }} />
+            </div>
+            <p style={{
+              color: 'var(--text)', fontSize: 15.5, lineHeight: 1.6, textAlign: 'justify',
+              margin: '0 0 16px', fontFamily: "'Crimson Text', serif",
+            }}>
+               Res Cogitans es un proyecto que busca reivindicar el arte creador de los docentes, 
+              pues son Artesanos en su enseñar. Por esa razón, y sin descanso, se busca crear herramientas 
+              digitales, físicas y epistémicas que permitan al docente reivindicarse en su hacer social y político, 
+              mostrándose como un sabedor que une intelecto y materialidad (producción real), además de estar autorizado a ejercer bajo su 
+              razón intelectual y sus años de experiencia, cualquier tipo de transformación y decisión. Esto revindica al docente como experto 
+              de la enseñanza, pues nadie más que él sabe el complejo Arte de Educar...
+            </p>
+            <div style={{
+              textAlign: 'right', color: 'var(--tdim)', fontSize: 14, fontStyle: 'italic',
+              fontFamily: "'Cinzel', serif", fontWeight: 600,
+            }}>
+              Att: Andersson Cortes y Res Cogitans
+            </div>
+          </div>
+        </div>
+      )}
+    </React.Fragment>
+  );
+}
+
+function App(){const[text,setText]=useState('');const[labels,setLabels]=useState(false);const[exporting,setExporting]=useState(false);const[toast,setToast]=useState(false);const tokens=tokenize(text);const used=getUsed(text);const hasContent=text.trim().length>0;function showToast(){setToast(true);setTimeout(()=>setToast(false),2600)}async function doExport(){if(!hasContent)return;setExporting(true);try{await exportToCanvas(tokens);showToast()}catch(e){console.error(e)}setExporting(false)}return(<div><div className="header"><svg className="header-eye" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M3,18 Q10,8 18,8 Q26,8 33,18 Q26,28 18,28 Q10,28 3,18 Z"/><circle cx="18" cy="18" r="5"/><circle cx="18" cy="18" r="2" fill="currentColor" stroke="none"/></svg><h1>Codificador de Símbolos</h1><sub>Transforma palabras en un lenguaje cifrado</sub><div className="rule"><span></span><div className="rule-dot"></div><span></span></div></div><div className="grid"><div className="panel"><div className="panel-lbl">Texto original</div><textarea value={text} onChange={e=>setText(e.target.value)} placeholder="Escribe aquí tu mensaje secreto…" spellCheck="false"/><div className="actions"><button className="btn" onClick={()=>setText('')}>Limpiar</button><button className="btn" style={{marginLeft:'auto'}} onClick={()=>setLabels(v=>!v)}>{labels?'Ocultar letras':'Mostrar letras'}</button></div></div><div className="panel"><div className="panel-lbl">Mensaje cifrado</div><div className="output">{!hasContent&&<div className="out-empty">El código aparecerá aquí…</div>}{tokens.map((tok,ti)=>{if(tok.type==='newline')return<div key={ti} style={{width:'100%',height:4}}/>;if(tok.type==='space')return(<span key={ti} style={{display:'inline-flex',alignItems:'center',gap:4}}>{Array.from({length:tok.n}).map((_,si)=>(<span key={si} style={{color:'var(--tdim)',fontSize:'1.3rem',lineHeight:'28px',letterSpacing:0,fontFamily:'monospace'}}>_</span>))}</span>);return(<span key={ti} className="out-word">{tok.chars.map((c,ci)=>c.hasSymbol?(<span key={ci} className="out-ch">{SYM[c.lo]()}{labels&&<span className="out-ltr">{c.lo}</span>}</span>):(<span key={ci} className="out-plain">{c.ch}</span>))}</span>)})}</div><div className="actions"><button className="btn accent" onClick={doExport} disabled={!hasContent||exporting}>{exporting?'Generando…':'↓ Exportar JPG'}</button></div></div></div><div className="sep"><span/><em>∴ Alfabeto Cifrado ∴</em><span/></div><div className="abc"><div className="abc-grid">{ALPHA.map(letter=>(<div key={letter} className={`abc-cell${used.has(letter)?' lit':''}`}>{SYM[letter]()}<div className="abc-letter">{letter}</div></div>))}</div></div><div className={`toast${toast?' show':''}`}>Imagen guardada</div><div style={{height:56}}/><ResCogitasFooter/></div>)}
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
 </body>
